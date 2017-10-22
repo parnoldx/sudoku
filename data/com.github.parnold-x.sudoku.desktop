@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Sudoku
+Comment=The number that is alone
+GenericName=Sudoku
+TryExec=com.github.parnold-x.sudoku
+Exec=com.github.parnold-x.sudoku
+Icon=com.github.parnold-x.sudoku
+Terminal=false
+Categories=Game
+Keywords=game;videogame;video game;player;sudoku;
