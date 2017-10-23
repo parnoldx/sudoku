@@ -1,9 +1,8 @@
 project('com.github.parnold-x.sudoku', ['vala', 'c'],
-    version: '0.2.0'
+    version: '0.1.2'
 )
 
 gnome = import('gnome')
-i18n = import('i18n')
 
 asresources = gnome.compile_resources(
     'as-resources', 'data/img.gresource.xml',
@@ -11,15 +10,26 @@ asresources = gnome.compile_resources(
     c_name: 'as'
 )
 
-add_project_arguments(['--vapidir', join_paths(meson.current_source_dir(), 'vapi')], language: 'vala')
 
 conf = configuration_data()
+# Get the package data directory under Meson
+pkgdatadir = join_paths([ get_option('prefix'),
+                          get_option('datadir'),
+                          meson.project_name() ])
+
+conf.set_quoted('PKGDATADIR', pkgdatadir)
+
+# Other configs
 conf.set_quoted('GETTEXT_PACKAGE', meson.project_name())
+conf
+add_global_arguments('-DDATADIR="' + get_option('datadir') + '"', language: 'c')
 configure_file(output: 'config.h', configuration: conf)
 config_h_dir = include_directories('.')
 
+# Arguments for C
 c_args = [
   '-include', 'config.h',
+  '-w'
 ]
 
 executable(
