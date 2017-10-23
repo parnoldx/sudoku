@@ -1,5 +1,5 @@
 project('com.github.parnold-x.sudoku', ['vala', 'c'],
-    version: '0.1.2'
+    version: '0.1.3'
 )
 
 gnome = import('gnome')
