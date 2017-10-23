@@ -7,5 +7,5 @@ TryExec=com.github.parnold-x.sudoku
 Exec=com.github.parnold-x.sudoku
 Icon=com.github.parnold-x.sudoku
 Terminal=false
-Categories=Game
+Categories=Game;
 Keywords=game;videogame;video game;player;sudoku;
