@@ -125,6 +125,9 @@ namespace Sudoku {
                     highlight (rowI, colI);
                 }
             }
+            if (fails > 3) {
+                return;
+            }
             for (int rowI = 0; rowI < 9; rowI++) {
                 for (int colI = 0; colI < 9; colI++) {
                     if (board[rowI,colI]!=solution[rowI,colI]) {
