@@ -18,6 +18,7 @@ Dependencies:
 * gee-0.8
 * gtk+-3.0
 * granite
+* qqwing
  
 then build with:
  
