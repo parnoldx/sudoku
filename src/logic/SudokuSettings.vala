@@ -36,12 +36,16 @@ namespace Sudoku {
         }
 
         construct {
-            dataFolder = File.new_for_path (Path.build_path (Path.DIR_SEPARATOR_S, Environment.get_user_data_dir (), "com.github.parnold-x.sudoku"));
-            if (!dataFolder.query_exists ()) {
-                dataFolder.make_directory ();
-            }
-            if (isSaved_file (highscoreFile)) {
-                _highscore = int.parse (load_file (highscoreFile));
+            try {
+                dataFolder = File.new_for_path (Path.build_path (Path.DIR_SEPARATOR_S, Environment.get_user_data_dir (), "com.github.parnold-x.sudoku"));
+                if (!dataFolder.query_exists ()) {
+                    dataFolder.make_directory ();
+                }
+                if (isSaved_file (highscoreFile)) {
+                    _highscore = int.parse (load_file (highscoreFile));
+                }
+            } catch (Error e) {
+                error (e.message);
             }
         }
 
@@ -71,19 +75,27 @@ namespace Sudoku {
         }
 
         public void save_file (string file_name, string data) {
-            var file = dataFolder.get_child (file_name);
-            if (file.query_exists ()) {
-                file.delete ();
-            }
-            var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
+            try {
+                var file = dataFolder.get_child (file_name);
+                if (file.query_exists ()) {
+                    file.delete ();
+                }
+                var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
 
-            dos.put_string (data);
+                dos.put_string (data);
+            } catch (Error e) {
+                error (e.message);
+            }
         }
 
         public void delete () {
             var file = dataFolder.get_child (saveFile);
             if (file.query_exists ()) {
-                file.delete ();
+                try {
+                    file.delete ();
+                } catch (Error e) {
+                    error (e.message);
+                }
             }
         }
     }

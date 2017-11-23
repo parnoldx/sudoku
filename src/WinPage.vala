@@ -66,12 +66,15 @@ public class WinPage : Gtk.AspectFrame {
 	public void set_board (SudokuBoard board, int highscore) {
 		if (board.fails == 0) {
 			error_label.set_markup ("<b>"+_("none!")+"</b>\n"+_("perfect!"));
-		} else {
+		} else if (board.fails <= 3) {
 			string tmp = "";
 			for (var i = 0; i < board.fails; i++) {
 				tmp += "X";
 			}
 			error_label.set_markup ("<span face=\"Daniel Black\" weight=\"bold\">"+tmp+"</span>");
+		} else {
+			error_label.set_markup ("<span foreground=\"red\" weight=\"bold\">"+_("broken series")+"</span>");
+			return;
 		}
 		points_label.set_markup ("<b>%i</b>".printf (board.points));
 		highscore_label.set_markup ("<b>%i</b>".printf (highscore));

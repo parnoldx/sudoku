@@ -51,7 +51,15 @@ namespace Sudoku {
                 dataStr+="|";
                 dataStr+= bc_output.read_line ();
                 dataStr+="|";
-                dataStr+="28"; //factor
+                if (difficulty == Difficulty.EASY) {
+                    dataStr+="28"; //factor
+                } else if (difficulty == Difficulty.MEDIUM) {
+                    dataStr+="56"; //factor
+                } else if (difficulty == Difficulty.HARD) {
+                    dataStr+="112"; //factor
+                } else if (difficulty == Difficulty.EXPERT) {
+                    dataStr+="156"; //factor
+                }
                 dataStr+="|";
                 dataStr+="0"; // points
                 dataStr+="|";
@@ -59,7 +67,7 @@ namespace Sudoku {
                 dataStr+="|";
                 dataStr+="0"; // fails
                 this.from_string (dataStr);
-            } catch (IOError err) {
+            } catch (Error err) {
                 error ("%s", err.message);
             }
         }
@@ -125,15 +133,8 @@ namespace Sudoku {
                     highlight (rowI, colI);
                 }
             }
-            if (fails > 3) {
+            if (!isFinshed ()) {
                 return;
-            }
-            for (int rowI = 0; rowI < 9; rowI++) {
-                for (int colI = 0; colI < 9; colI++) {
-                    if (board[rowI,colI]!=solution[rowI,colI]) {
-                        return;
-                    }
-                }
             }
             for (int rowI = 0; rowI < 9; rowI++) {
                 for (int colI = 0; colI < 9; colI++) {
@@ -144,6 +145,17 @@ namespace Sudoku {
                 won (this);
                 return false;
             });
+        }
+
+        public bool isFinshed () {
+            for (int rowI = 0; rowI < 9; rowI++) {
+                for (int colI = 0; colI < 9; colI++) {
+                    if (board[rowI,colI]!=solution[rowI,colI]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         public SudokuBoard.from_string (string data) {

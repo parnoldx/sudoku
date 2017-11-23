@@ -37,6 +37,7 @@ namespace Sudoku {
         }
 
         construct {
+            try {
             var provider = new Gtk.CssProvider ();
             provider.load_from_data ("
 .sudoku-window {
@@ -65,6 +66,9 @@ GtkInfoBar {
     text-shadow: none;
 }");
             Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            } catch (Error e) {
+                 error (e.message);
+            }
             this.get_style_context ().add_class ("sudoku-window");
 
             var toolbar = new ToolBar ();
@@ -96,19 +100,24 @@ GtkInfoBar {
             var info_bar = new Gtk.InfoBar ();
             if (settings.isSaved ()) {
                 sudoku_board = new SudokuBoard.from_string (settings.load ());
-                info_bar.set_message_type (Gtk.MessageType.ERROR);
-                main_box.pack_end (info_bar, false, true, 0);
-                var content = info_bar.get_content_area ();
-                var infobox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
-                content.add (infobox);
-                var button = new Gtk.Button.with_label (_("Resume last game"));
-                button.clicked.connect (() => {
-                    info_bar.no_show_all = true;
-                    info_bar.hide ();
-                    toolbar.set_board (sudoku_board);
-                    set_board (sudoku_board);
-                });
-                infobox.pack_end (button);
+                if (!sudoku_board.isFinshed ()) {
+                    info_bar.set_message_type (Gtk.MessageType.ERROR);
+                    main_box.pack_end (info_bar, false, true, 0);
+                    var content = info_bar.get_content_area ();
+                    var infobox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+                    content.add (infobox);
+                    var button = new Gtk.Button.with_label (_("Resume last game"));
+                    button.clicked.connect (() => {
+                        info_bar.no_show_all = true;
+                        info_bar.hide ();
+                        toolbar.set_board (sudoku_board);
+                        set_board (sudoku_board);
+                    });
+                    infobox.pack_end (button);
+                } else {
+                    sudoku_board = null;
+                }
+                
             }
             welcome.activated.connect ((index) => {
                 info_bar.no_show_all = true;
@@ -129,7 +138,9 @@ GtkInfoBar {
             stack.set_visible_child (board);
             sudoku_board.start ();
             sudoku_board.won.connect ((b) => {
-                settings.highscore = b.points;
+                if (b.fails <= 3) {
+                    settings.highscore = b.points;
+                }
                 win_page.set_board (b, settings.highscore);
                 stack.set_visible_child (win_page);
                 sudoku_board = null;

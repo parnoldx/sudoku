@@ -381,17 +381,6 @@ namespace Sudoku {
         	    c.scale (-1, 1);
         	}
 
-        // /* TODO game.board.cols == game.board.rows... */
-        // for (var i = 0; i < 9; i++) {
-        //     for (var j = 0; j < 9; j++) {
-        //         var background_color = cells[i, j].background_color;
-        //         c.set_source_rgb (background_color.red, background_color.green, background_color.blue);
-
-        //         c.rectangle ((int) (j * tile_length) + 0.5, (int) (i * tile_length) + 0.5, (int) ((j + 1) * tile_length) + 0.5, (int) ((i + 1) * tile_length) + 0.5);
-        //         c.fill ();
-        //     }
-        // }
-
         	c.set_line_width (1);
         	c.set_source_rgb (0.6, 0.6, 0.6);
         	for (var i = 1; i < 9; i++) {
