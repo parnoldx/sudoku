@@ -40,12 +40,6 @@ namespace Sudoku {
             try {
             var provider = new Gtk.CssProvider ();
             provider.load_from_data ("
-.sudoku-window {
-    background-image: url(\"resource:///com/github/parnold-x/sudoku/bg.jpg\");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-}
 .welcome {
     background: transparent;
 }
@@ -59,12 +53,7 @@ GtkInfoBar {
 .win-button {
     border-color: shade (mix (rgb (67%, 13%, 16%), rgb (67%, 13%, 16%), 0.6), 1);
 }
-.sudoku-toolbar {
-    background: transparent;
-    border-bottom-color: transparent;
-    box-shadow: inset 0px 1px 1px -2px white;
-    text-shadow: none;
-}");
+");
             Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default (), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
             } catch (Error e) {
                  error (e.message);

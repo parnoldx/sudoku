@@ -33,7 +33,7 @@ c_args = [
 ]
 
 executable(
-    'com.github.parnold-x.sudoku',
+    meson.project_name(),
     'src/Application.vala',
     'src/MainWindow.vala',
     'src/Board.vala',

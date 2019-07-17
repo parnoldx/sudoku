@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/com/github/parnold-x/sudoku">
-    <file alias="bg.jpg" compressed="true">bg.jpg</file>
     <file alias="header.png" compressed="true">header.png</file>
   </gresource>
 </gresources>
